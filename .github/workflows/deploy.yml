@@ -24,7 +24,13 @@ jobs:
         with:
           python-version: "3.11"  # Gebruik een stabiele Python-versie.
           cache: pip               # Gebruikt pip-cache voor snellere installatie.
-
+          
+      # Installeert de benodigde Python-packages.
+      - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            python -m pip install -r requirements.txt
+            
       # Debug stap
       - name: Show versions
         run: |
@@ -32,10 +38,6 @@ jobs:
           pip show jupyter-book
           jupyter-book --version
           
-      # Installeert de benodigde Python-packages.
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
       # Bouwt het boek met Jupyter Book.
       - name: Build the book
         run: jupyter-book build .
