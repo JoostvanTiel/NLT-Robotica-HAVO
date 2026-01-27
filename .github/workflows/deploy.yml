@@ -33,6 +33,10 @@ jobs:
       - name: Build the book
         run: jupyter-book build .
 
+      # Controleer of de _build/html map bestaat
+      - name: Check build output
+        run: ls -la _build/html
+
       # Uploadt de gegenereerde HTML-bestanden als een artifact.
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
