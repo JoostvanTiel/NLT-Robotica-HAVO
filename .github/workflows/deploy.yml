@@ -1,0 +1,45 @@
+name: deploy-book
+
+# Deze workflow draait wanneer er wijzigingen worden gepusht naar de `main` branch.
+on:
+  push:
+    branches:
+      - main
+
+# Deze job installeert afhankelijkheden, bouwt het boek, en pusht het naar `gh-pages`.
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # Geeft toestemming om naar GitHub Pages te schrijven.
+      id-token: write   # Geeft toestemming om een token te gebruiken voor authenticatie.
+
+    steps:
+      # Checkt de repository code uit.
+      - uses: actions/checkout@v4
+
+      # Stelt Python in.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"  # Gebruik een stabiele Python-versie.
+          cache: pip               # Gebruikt pip-cache voor snellere installatie.
+
+      # Installeert de benodigde Python-packages.
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Bouwt het boek met Jupyter Book.
+      - name: Build the book
+        run: jupyter-book build .
+
+      # Uploadt de gegenereerde HTML-bestanden als een artifact.
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _build/html  # Pad naar de gegenereerde HTML-bestanden.
+
+      # Deployt de HTML-bestanden naar GitHub Pages.
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
