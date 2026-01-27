@@ -27,9 +27,9 @@ jobs:
           
       # Installeert de benodigde Python-packages.
       - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            python -m pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
             
       # Debug stap
       - name: Show versions
