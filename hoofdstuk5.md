@@ -8,45 +8,64 @@ In het vorige hoofdstuk zijn we het commando `motor_aan()` tegengekomen. Dit is 
 
 Naast de functies die we al zijn tegengekomen, en alle functies die in het bestand `maqueen.py` staan, kun je ook je eigen functies schrijven. Een voorbeeld van een simpele functie is: 
 
-	# rekent de oppervlakte van een rechthoek uit
-	# hoogte: de hoogte van de rechthoek
-	# breedte: de breedte van de rechthoek
-	# return: de oppervlakte van de rechthoek
-	
-	def Oppervlakte(hoogte, breedte):
-		opp = hoogte * breedte
-		return opp
+	from microbit import *
 
-Je ziet dat de code begint met eerst in commentaar uitleggen  wat de functie doet, welke waardes hij meekrijgt en wat hij oplevert. Dit moet je er altijd bij schrijven als je een functie maakt. Zo blijft het altijd duidelijk wat welke functie doet. Om de functie te schrijven begin je altijd met def . Hiermee vertel je aan het programma dat je een functie gaat schrijven. Daarna geef je de functie een naam en zet je tussen haakjes de parameters.  
+	def laat_hartje_knipperen():
+		"""
+			laat een hartje knipperen
+		"""
+		
+		display.show(Image.HEART)
+		sleep(1000)
+		display.clear()
+		sleep(1000)
+		display.show(Image.HEART)
+		sleep(1000)
+		display.clear()
+		sleep(1000)
+
+	while True:
+		laat_hartje_knipperen()
+		display.show(Image.HAPPY)
+		break
+
+Je ziet dat de code begint met eerst in commentaar uitleggen  wat de functie doet. Dit moet je er altijd bij schrijven als je een functie maakt. Zo blijft het altijd duidelijk wat welke functie doet. Om de functie te schrijven begin je altijd met def . Hiermee vertel je aan het programma dat je een functie gaat schrijven. Daarna geef je de functie een naam.
+
+
+
+
 
 ### Parameters 
 
-Tussen de haakjes staan de waardes die de functie meekrijgt. Dit worden ook wel parameters genoemd. Parameters zijn de invoer van een functie. Binnen de functie gebruik je de parameters als variabelen. De waarden van de parameters weet je niet als je de functie schrijft. Die worden pas bepaald als de functie wordt aangeroepen. Als je de functie schrijft moet je wel aangeven hoe je de parameter noemt. Het maakt niet uit hoeveel parameters een functie heeft. Als je geen parameters hebt, dan laat je het gedeelte tussen de haakjes leeg. 
 
-### Returnwaarde 
+	from microbit import *
 
-Een functie kan hooguit 1 waarde als uitvoer hebben. Dit is de returnwaarde. In de code van de functie moet je aangeven welke waarde teruggegeven moet worden. Dit doe je door `return` te gebruiken. Achter return geef je aan wat je terug wilt geven. Dit kan een variabele zijn, maar ook een letterlijke waarde. 
+	def laat_hartje_knipperen(tijd):
+		"""
+			laat een hartje knipperen
+			tijd: geheel getal
+			return: niets, functie voert iets uit, geeft niet iets terug
+		"""
+		display.show(Image.HEART)
+		sleep(1000)
+		display.clear()
+		sleep(1000)
+		display.show(Image.HEART)
+		sleep(1000)
+		display.clear()
+		sleep(1000)
 
-### Functies aanroepen 
+	while True:
+		laat_hartje_knipperen(400)
+		display.show(Image.HAPPY)
+		break
 
-Om functies te kunnen gebruiken moet je deze aanroepen. Dit doe je door de naam van de functie op te geven, gevolgd door de waarden van de parameters. Om een functie aan te roepen hoef je dus niet te weten hoe de parameters heten, als je maar weet hoeveel parameters je op moet geven. 
+Sommige functies werken met zogenaamde parameters. Tussen de haakjes staan de waardes die de functie nodig heeft om zijn werk te doen. Paramters zijn de invoer van een functie. Binnen de functie gebruik je de parameters als variabelen. De waarden van de parameters weet je niet als je de functie schrijft. Die worden pas bepaald als de functie wordt aangeroepen. Als je de functie schrijft moet je wel aangeven hoe je de parameter noemt. Het maakt niet uit hoeveel parameters een functie heeft. Als je geen parameters hebt, dan laat je het gedeelte tussen de haakjes leeg. In het voorbeeld hierboven wordt de parameter `tijd` ingevoerd. Als de functie wordt aangeroepen wordt de waarde 400 doorgegeven. De tijd tussen het verschijnen van het hartje en het leegmaken van het scherm is dan 400 ms. 
 
-	# rekent de oppervlakte van een rechthoek uit 
-	# hoogte: de hoogte van de rechthoek
-	# breedte: de breedte van de rechthoek
-	# return: de oppervlakte van de rechthoek
-	
-	def Oppervlakte(hoogte, breedte):
-		opp = hoogte * breedte
-		return opp
-		
-	opp_rechthoek = Oppervlakte(2,3)
+### Returnwaardes en void-functies
 
-Hierin zie je een voorbeeld van het aanroepen van de eerder geschreven functie. In dit geval wordt dus het oppervlak uitgerekend van een rechthoek van 2 bij 3. De resulterende waarde wordt vervolgens opgeslagen in een variabele genoemd Opp_rechthoek. Deze variabele krijgt nu dus de waarde 6. Als je een nieuwe functie maakt, moet deze gedefinieerd zijn voordat hij wordt aangeroepen. Anders weet de compiler niet welke functie je aan probeert te roepen, want de compiler werkt van boven naar beneden. 
-
-### Void-functie 
-
-Soms wil je ook functies maken die geen variabele oplevert. In zo’n geval gebruik je een void-functie. Het type void geeft aan dat de functie geen resultaat heeft. We zijn in deze module al veel void-functies  tegen gekomen.  Bijvoorbeeld de functie `display.show(Image.HEART)` heeft geen returnwaarde.  In het laatste voorbeeld zie je dat ook void-functies parameters kunnen bevatten. Hoewel ze geen returnwaarde hebben, kunnen ze wel een actie in gang zetten. 
+Sommige functies geven een waarde terug aan de code, bijvoorbeeld als ze een berekening hebben uitgevoerd. Deze waarde noem je de uitvoer. Een functie kan hooguit 1 waarde als uitvoer hebben. Dit is de returnwaarde. In de code van de functie moet je aangeven welke waarde teruggegeven moet worden. Dit doe je door `return` te gebruiken. Achter return geef je aan wat je terug wilt geven. Dit kan een variabele zijn, maar ook een letterlijke waarde.
+Andere functies geven geen returnwaarde, maar voeren alleen een stukje code uit. Dit soort functies noem je void-functies. We zijn in deze module al veel void-functies  tegen gekomen.  Bijvoorbeeld de functie `display.show(Image.HEART)` heeft geen returnwaarde.  In het laatste voorbeeld zie je dat ook void-functies parameters kunnen bevatten. Hoewel ze geen returnwaarde hebben, kunnen ze wel een actie in gang zetten. 
 
 ## Variabelen 
 
