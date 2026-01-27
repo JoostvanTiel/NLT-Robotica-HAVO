@@ -28,7 +28,7 @@ jobs:
       # Debug stap
       - name: Show versions
         run: |
-          python -- version
+          python --version
           pip show jupyter-book
           jupyter-book --version
           
