@@ -1,62 +1,55 @@
-# Hoofdstuk 3: Sensoren
+# Hoofdstuk 3: Sensoren en Zintuigen
 
-Robots zijn uitgerust met sensoren zoals afstandssensor, geluidsensor, kleurensensor enzovoort. Via deze sensoren kunnen robots hun omgeving observeren, waardoor een robot autonoom kan functioneren. In dit hoofdstuk behandelen we hoe je de lijnvolgsensoren en de ultrasone afstandssensor kunt gebruiken.
+Jij hebt ogen en oren om de wereld te begrijpen. Een robot heeft **sensoren**. Zonder sensoren is een robot blind en doof en botst hij overal tegenaan. 
 
-## De lijnvolgsensoren 
+De Maqueen heeft twee belangrijke soorten zintuigen:
+1.  **Lijnvolgsensoren** (Ogen op de grond): Zien donker vs licht.
+2.  **Ultrasoonsensor** (Vleermuis-oren): "Zien" afstand door geluid te weerkaatsen.
 
-In de onderstaande figuur zie je de vijf lijnsensoren die op de maqueen aanwezig zijn. Elke sensor heeft een infrarood (IR) zender en een IR ontvanger. De IR zender zend infrarode straling uit. Die straling wordt door een witte ondergrond weerkaatst, maar door een zwarte ondergrond geabsorbeerd. De IR ontvanger stuurt afhankelijk van de intensiteit van de IR straling een waarde tussen de 0 (weinig straling) en 255 (zeer veel straling) terug.
+## De Lijnvolgsensoren (Infrarood)
 
-![lijnvolgsensoren onderaanzicht](/img/h4.1.png)
+Kijk eens onderop de robot. Je ziet daar 5 kleine zwarte blokjes (of 2, afhankelijk van de versie, maar onze code werkt met 5 zones). Dit zijn de infraroodsensoren.
+*   Zendt onzichtbaar licht uit.
+*   **Wit papier:** Kaatst veel licht terug.
+*   **Zwarte tape:** Absorbeert het licht (slurpt het op).
 
-```{image} /img/h4.2.png
-:alt: screenshot microbit verbinden
-:width: 200px
-:align: right
-```
+De computer krijgt een getal terug.
+*   **Laag getal (< 100)**: Ik zie ZWART (lijn).
+*   **Hoog getal (> 100)**: Ik zie WIT (papier).
 
-Als de robot over een zwarte lijn rijdt, met aan weerszijden een witte ondergrond, zullen een de lijnvolgsensoren boven de witte ondergrond een hoge waarde terugsturen en de lijnvolgsensoren boven de lijn een lage waarde. Op die manier kan vastgesteld worden waar de lijn zich onder de robot bevindt. Zie ook de figuur hiernaast.
+*Let op: Dit kan per robot verschillen! Lichtinval in het lokaal heeft invloed.*
 
-De vijf lijnsensoren van de Maqueen zijn van links naar rechts als volgt genoemd: `lijnsensor_l2`, `lijnsensor_l1`, `lijnsensor_m`, `lijnsensor_r1`, `lijnsensor_r2`.
+## De Ultrasoonsensor (Afstand)
 
-De volgende pseudocode omschrijft hoe een lijnvolgprogramma eruit zou kunnen zien:
+Bovenop de robot zitten twee "ogen". Stiekem zijn dit speakers!
+*   Linker oog: "Gilt" een heel hoog toontje (Ultrasoon, wij horen het niet).
+*   Rechter oog: Luistert wanneer de echo terugkomt.
 
-	# Lees de lijnsensoren uit
-	
-	# Als de middelste lijnsensor (lijnsensor_m) een hoge waarde stuurt:
-		# Rijd vooruit
-	# Anders, als linker lijnsensor (lijnsensor_l1 of lijnsensor_l2) een lage waarde stuurt:
-		# Draai naar links 
-	# Anders, als rechter lijnsensor (lijnsensor_r1 of lijnsensor_r2) een lage waarde stuurt:
-		# Draai naar rechts
+`Afstand = Tijd * Snelheid van het geluid / 2`
 
-In de situatie van de bovenstaande afbeelding zal `lijnsensor_r1` een lage waarde terugsturen en moet de robot dus naar rechts draaien.
+Gelukkig hoeven wij die wiskunde niet te doen. De functie `afstand_tot_voorwerp()` geeft ons direct het aantal centimeters.
 
-Om de waarde van een lijnvolgsensor te krijgen, kan de volgende functie worden gebruikt:
+## Opdrachten hoofdstuk 3: Het Laboratorium
 
-	read_line_sensor(sensor) # Op de plaats van sensor moet de naam van de sensor komen te staan.
+We gaan vandaag niet zomaar code overtypen, we gaan **meten**.
 
-## De ultrasone afstandssensor
+1.  **De Kalibratie-test**:
+    Schrijf een programma dat continu de waarde van de *middelste* lijnsensor (`lijnsensor_m`) op de micro:bit toont (met `display.scroll`).
+    *   Houd de robot boven wit papier. Wat is het getal?
+    *   Houd de robot boven zwarte tape. Wat is het getal?
+    *   Houd de robot in de lucht. Wat is het getal?
+    *   *Conclusie:* Welk getal ligt veilig in het midden om als grens ("drempelwaarde") te gebruiken?
 
-Een andere sensor waarover de Maqueen beschikt, is de ultrasone afstandssensor. Door deze sensor lijkt het net alsof de robot twee ogen heeft. In tegenstelling tot ogen, gebruikt deze sensor geen licht, maar ultrasoon geluid om te bepalen of er zich een voorwerp voor de robot bevindt. Met het linker "oog", de verzender (T), verstuurt de sensor een ultrasoon geluidssignaal. Dat signaal beweegt zich met de snelheid van het geluid voort en zal tegen een voorwerp weerkaatsen. Het rechter "oog", de ontvanger (R), vangt het weerkaatste signaal op. Uit het tijdsverschil en de snelheid van het geluid, kan dan berekend worden op welke afstand het voorwerp zich van de robot bevond. Zie ook de schematische tekening hieronder.
+2.  **Kleurenblind?**:
+    De sensor werkt met Infrarood, niet met kleur zoals wij dat zien. Test de sensor op een **rood** en een **blauw** vlak. Ziet de robot dit als "wit" (licht weerkaatsend) of "zwart" (absorberend)?
 
-![werking US sensor](/img/h4.3.png)
+3.  **Vleermuis-modus**:
+    Schrijf een programma dat de `afstand_tot_voorwerp()` laat zien.
+    *   Zet je hand op 5 cm afstand. Klopt de meting?
+    *   Wat is de *maximale* afstand die hij kan zien? (Loop langzaam achteruit met een boek).
+    *   Wat gebeurt er als je een zacht kussen gebruikt in plaats van een hard boek? (Denk aan hoe geluid weerkaatst).
 
-Om de afstand vanaf de US sensor te krijgen, wordt de functie `afstand_tot_voorwerp()` gebruikt. Deze functie retourneert de afstand in cm.
-
-## Opdrachten hoofdstuk 4
-
-1. Schrijf een programma dat de waarde van `lijnsensor_m` op het scherm van de micro:bit toont. Gebruik de functie `sleep()` om te zorgen dat de waarde niet te snel verandert.
-
-2. Onderzoek met behulp van de vorige opdracht welke waardes de lijnsensor terugstuurt als deze zich boven een witte, zwarte, blauwe, groene en rode ondergrond bevindt.
-
-3. Zoek in het `maqueen.py` bestand op wat de snelheid van het geluid is die de Ultrasone Afstandssensor gebruikt om de afstand te berekenen.
-
-4. Schrijf een programma dat de afstand tot de ultrasone afstandssensor op het scherm van de micro:bit toont.
-
-5. Onderzoek met behulp van de vorige opdracht wat de minimale en de maximale afstand is die de maqueen kan waarnemen met de ultrasone afstandssensor.
-
-6. Voer de volgende opdrachten uit:
-	+ Vraag een A2-papier, een grijs A4-tje en een rol zwarte tape aan je docent. 
-	+ Maak vervolgens een rechte lijn op het papier en leg het grijze velletje aan het eind van de lijn. 
-	+ Laat de robot rechtdoor over de lijn rijden en laat de waarde van `lijnsensor_m` op het scherm zien. Noteer deze waardes op een plek waar je ze terug kan vinden. 
-	+ Zet je namen op het A2-papier en lever deze weer in bij je docent.
+4.  **Het Alarm**:
+    Verzin een toepassing. Bijvoorbeeld:
+    *   Als de robot wordt opgetild (lijnsensor ziet geen vloer meer), moet hij een droevig gezichtje tonen.
+    *   Als iemand te dichtbij komt (afstand < 10cm), moet hij een boos gezichtje tonen.

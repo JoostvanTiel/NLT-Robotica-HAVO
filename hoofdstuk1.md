@@ -1,71 +1,45 @@
 # Hoofdstuk 1: Beginnen met programmeren
 
-In dit hoofdstuk behandelen we hoe je kunt beginnen met programmeren. 
-Hiervoor maken we gebruik van een simulator. Allereerst leren we het 
-programma kennen waarmee we in deze module gaan werken. Vervolgens 
-bespreken we het geven van commando’s via het maken van pseudocode. 
-Hierna kijken we naar de basissyntax van de programmeertaal Python en 
-je leert hoe je een programma overzichtelijk en begrijpelijk kunt houden.
+In dit hoofdstuk duiken we in de wereld van programmeren. Voordat we de robot echt laten rijden, beginnen we in een veilige omgeving: de simulator. We leren hoe je een computer (of robot) instructies geeft, wat de "taal" van Python is, en hoe je code schrijft die ook voor anderen begrijpelijk is.
 
-## Beginnen met programmeren
+## De Computer als Eigenwijze Leerling
 
-Voor het aansturen van de robot maken we gebruik van de [micro:bit Python 
-Editor](https://python.microbit.org/v/3 "Klik hier om naar de editor te 
-gaan"). Om te beginnen ga je naar deze website. Je krijgt nu het volgende 
-scherm:
+Een robot is eigenlijk een hele snelle, maar ontzettend domme leerling. Hij doet *precies* wat jij zegt, niet wat jij *bedoelt*. 
+
+Stel je voor dat ik jou vraag: "Pak een glas water." Dat snap jij direct.
+Maar als ik dat tegen een robot zeg, blijft hij stil staan. Hij weet niet wat 'pakken' is, waar de kraan is of hoe een glas eruit ziet.
+
+Om een robot iets te laten doen, moeten we gebruik maken van **pseudocode**. Dit is een stappenplan in normale mensentaal, maar dan zo precies dat zelfs een robot het niet fout kan doen.
+
+### Opdracht: De Robot-Docent
+Kies één iemand uit de klas (of je docent) die voor robot gaat spelen. De robot mag alleen bewegen als hij exact commando's krijgt.
+Probeer de robot-docent de deur uit te laten lopen.
+
+**Fout:** "Loop naar de deur." (Robot weet niet waar de deur is)
+**Goed:**
+1. Sta op.
+2. Draai 90 graden naar rechts.
+3. Zet 5 stappen vooruit.
+4. Til je arm op tot deurkruk-hoogte.
+5. ...
+
+Zie je hoe gedetailleerd je moet zijn? Dit is precies wat programmeren is: complexe problemen opbreken in kleine, logische stapjes.
+
+## Je Eerste Code: De Simulator
+
+We gebruiken de [micro:bit Python Editor](https://python.microbit.org/v/3) om onze code te schrijven.
+1. Ga naar de website.
+2. Je ziet links een stuk tekst (de code) en rechts een plaatje van de micro:bit (de simulator).
+
 ![screenshot van hoofdscherm](/img/h1.1.png)
 
-De projecten die je maakt geef je een eigen naam. Hiervoor klik je op 
-“project”. Hier kun je de projectnaam wijzigen. Een project kan bestaan uit 
-meerdere bestanden, in veel gevallen is dit een bestand met functies, 
-bijvoorbeeld `functies.py`, en een hoofdbestand `main.py` waarin de functies 
-worden aangeroepen. In latere hoofdstukken gaan we dieper in op wat functies 
-zijn. 
-![screenshot van de bestanden](/img/h1.2.png)
+### PRIMM: Eerst kijken, dan doen
+In de informatica gebruiken we vaak de **PRIMM**-methode: **P**redict (Voorspel), **R**un (Voer uit), **I**nvestigate (Onderzoek), **M**odify (Pas aan), **M**ake (Maak).
 
-## Pseudocode
+In de editor staat al een stukje code. 
 
-Voordat je echt gaat programmeren is het belangrijk om te bedenken hoe je 
-de robot iets moet laten doen. Het is daarom belangrijk dat je in stapjes 
-opschrijft wat er precies moet gebeuren en hoe het precies moet gebeuren. 
-De uitgeschreven stappen wordt ook wel pseudocode genoemd. 
-
-Stel je wilt een programma schrijven om een beker melk in te schenken. Dan 
-wordt de pseudocode:
-
-	Pak een beker 
-	Pak het pak melk 
-	Doe de melk in de beker
-
-Dit is nu een programma, maar de robot zou hier nog niks van snappen. De 
-stappen kunnen nog specifieker uitgewerkt worden: 
- 
-	Pak een beker 
-	  1a. Doe de kastdeur open 
-	  1b. Pak de beker 
-	  1c. Doe de kastdeur dicht 
-	Pak het pak melk 
-	  2a. Doe de koelkast open 
-	  2b. Pak het pak melk 
-	  2c. Doe de koelkast dicht 
-	Doe de melk in de beker
-	  3a. Draai de dop van het pak melk 
-	  3b. Schenk de melk in de beker 
-	  3c. Draai de dop op het pak`
-
-Het lijkt misschien overbodig om het zo specifiek uit te schrijven, maar zo 
-maak je van grotere problemen kleine problemen. Als je gaat programmeren is 
-dit eenvoudig te vertalen naar commando’s. Door pseudocode te schrijven spaar 
-je tijdens het programmeren veel tijd uit.
-
-## Syntax
-
-De syntax van een programmeertaal zijn de regels waar je je aan moet houden 
-zodat het programma begrijpt wat je bedoelt. Je kunt dus niet zomaar je 
-pseudocode in het programma zetten, maar je moet deze eerst omzetten in de 
-correcte syntax. Elke programmeertaal heeft een eigen syntax. Voor deze module 
-programmeren we met de programmeertaal Python. Bij het openen van het 
-programma zagen we dat er al een stukje code gegeven is.
+**Stap 1: Predict (Voorspel)**
+Kijk naar de onderstaande code. Wat denk je dat er gebeurt als je op 'Play' drukt? Bespreek dit met je buurman/vrouw.
 
 	# Imports go at the top
 	from microbit import *
@@ -76,123 +50,52 @@ programma zagen we dat er al een stukje code gegeven is.
 		sleep(1000)
 		display.scroll('Hello')
 
-Deze regels volgen uiteraard de juiste syntax. Laten we eens kijken wat de 
-code zegt. De regels met een `#` ervoor zijn commentaar, deze worden dus niet 
-uitgevoerd door het programma. De eerste regel die wordt uitgevoerd is daarmee 
-regel 2. Deze regel moet in deze cursus altijd bovenaan je code staan, omdat 
-deze ervoor zorgt dat de juiste functies en definities worden geïmporteerd. 
-\* betekent in deze programmeertaal “alles”. In mensentaal zegt regel 2 dus 
-“importeer alles wat opgeslagen staat in het bestand 'microbit'.”
+**Stap 2: Run (Voer uit)**
+Druk op de Play-knop (driehoekje) onder de simulator. Had je gelijk?
+Je ziet waarschijnlijk een hartje voor 1 seconde (1000 milliseconden), en daarna de tekst "Hello" die voorbij rolt.
 
-Verder zien we in dit bestand nog een kleine commando staan. Dit stukje code 
-staat in een while-statement. Wat dit precies betekent komen we later op terug, 
-maar voor nu mag je aannemen dat dit ervoor zorgt dat commando’s die erin staan 
-oneindig vaak worden uitgevoerd. In het while-statement staat eerst:
+## Syntax: De Grammatica van Python
 
-	display.show(image.heart)
+Net zoals Nederlands spellingsregels heeft, heeft Python dat ook. Dit noemen we **syntax**.
 
-Hierin commandeer je het programma om een afbeelding te laten zien van een 
-hart. De code wordt vervolgd met:
+*   `from microbit import *`: Dit is je gereedschapskist. Je 'pakt' alle hulpmiddelen die je nodig hebt om de micro:bit te besturen.
+*   `while True:`: Dit betekent "Doe dit voor altijd". Alles wat hieronder staat (en ingesprongen is), wordt herhaald tot de batterij leeg is.
+*   `sleep(1000)`: Wacht 1000 milliseconden (1 seconde).
 
-	Sleep(1000) 
+### Let op de details!
+Python is hoofdlettergevoelig. `True` is goed, `true` werkt niet. `Image.HEART` moet met hoofdletters.
 
-Je zegt de computer hier om 1000 milliseconden, ofwel 1 seconde, te wachten. 
-Als laatste zegt het programma:
+## Inspringen (Indentation)
 
-	display.scroll("Hello") 
+Python gebruikt **inspringen** (ruimte aan het begin van de regel) om te bepalen wat bij elkaar hoort. Kijk maar eens naar dit voorbeeld:
 
-Je vraagt het programma hier om het woord “Hello” te laten afspelen.
-
-In conclusie verwachten we dus dat deze code allereest een hart laat zien. 
-Dit doet hij voor een tijdsduur van 1 seconde. Vervolgens wordt het woord 
-“Hello” afgespeeld. Controleer dit door op de simulator te klikken.
-
-We hebben nu de eerste syntax van Python gezien. Je kunt deze eerste code 
-aanpassen door bijvoorbeeld de afbeelding of het woord te veranderen. Als je 
-op “reference” klikt, kun je andere voorbeelden zien van stukjes code.
-
-## Inspringen
-
-Het is belangrijk om je code overzichtelijk te houden. Zo wordt het 
-duidelijker waar de code bij hoort en is het makkelijker te begrijpen wat er 
-staat, vooral als je later langere stukken code krijgt. Ook is het dan later 
-makkelijker terug te vinden en aan te passen, wat de onderhoudbaarheid van de 
-code vergroot. 
-
-Dit programma is niet overzichtelijk: 
-
-	while True: 
-	display.show(Image.HEART) 
-	sleep(1000) 
+	while True:
+		display.show(Image.HEART)
+		sleep(1000)
 	display.scroll('Hello')
 
-De belangrijkste stap om te nemen om je code goed leesbaar te houden is om 
-de code te laten  inspringen. Om te laten zien dat het gedeelte na de : binnen 
-de while-loop staat, laten we dit stukje inspringen. We krijgen dan dus  
+In dit foute voorbeeld staat `display.scroll('Hello')` *niet* ingesprongen. Python denkt nu: "Oh, die regel hoort niet bij de herhaling." Maar omdat de herhaling (`while True`) nooit stopt, zal hij nooit aan het woordje "Hello" toe komen!
 
-	while True: 
-		display.show(Image.HEART) 
-		sleep(1000) 
-		display.scroll('Hello') 
+**Regel:** Alles dat bij de `while`-loop hoort, moet met een `Tab` ingesprongen worden.
 
-Zo zie je duidelijk waar de code bij hoort en wat wel of niet binnen een 
-bepaalde loop of functie staat.  
+## Commentaar: Briefjes aan jezelf
 
-## Commentaar
+Code kan best ingewikkeld worden. Help jezelf (en je docent) door **commentaar** toe te voegen. Alles wat achter een hekje (`#`) staat, wordt door de computer genegeerd.
 
-Bij elk nieuw bestand of project wat je maakt zet je bovenaan in commentaar 
-de naam en een korte beschrijving van het programma. Daaronder zet je jouw 
-eigen naam en die van je partner, je klas en de datum. Je kunt tekst in 
-commentaar zetten door er # voor te zetten. Dit kun je overal in je programma 
-doen. Commentaar is onderdeel van de code, maar wordt niet uitgevoerd door 
-het programma.  Commentaar is bedoeld om aantekeningen bij je programma te 
-maken. Je geeft boven elke alinea in een paar woorden aan wat dat  stukje code 
-doet. Zo snap jij (en anderen) later ook nog wat dat stukje code doet. Achter 
-elke regel is niet nodig, tenzij je dit zelf prettig vindt. De standaard code 
-wordt in dit geval: 
+	# Dit programma laat een boos gezicht zien
+	display.show(Image.ANGRY) # Ik ben boos!
 
-	# Naam programma en korte beschrijving
-	# Naam 1 
-	# Naam 2  
-	# Klas  
-	# Datum 
-	
-	# Imports go at the top 
-	from microbit import *
-	
-	# Code in a 'while True:' loop repeats forever 
-	# Display an image of a heart for 1 sec and then scroll the word “Hello” 
-	while True: 
-		display.show(Image.HEART) 
-		sleep(1000) 
-		display.scroll('Hello')
+Gebruik commentaar om je code te structureren:
+1.  Bovenin: Wie heeft dit gemaakt en wat doet het?
+2.  Bij lastige stukjes: Waarom doe je dit?
 
 ## Opdrachten H1
-1. Ga naar [de editor](https://python.microbit.org/v/3) en geef je project een projectnaam.
-2. Zet als commentaar je naam, klas, de datum en de beschrijving van de 
-opdracht bovenaan in je code
-3. Verander de standaard code zodat de afbeelding van het hart niet 1 maar 
-2 seconde wordt getoond.
-4. Zoek met behulp van de “reference” map de code op om een smiley te laten 
-verschijnen. Toon deze smiley voor 2 seconden.
-5. Maak onderstaande code netjes. Gebruik daarvoor gebruik van inspringen en 
-commentaar.  
 
-		while True: 
-		if button_a.was_pressed(): 
-		display.show('A') 
-		sleep(1000) 
-		display.show(Image.SAD) 
-		if button_b.was_pressed(): 
-		display.show('B') 
-		sleep(1000) 
-		display.show(Image.HAPPY) 
+1.  **Investigate**: Verander in de standaard code `sleep(1000)` naar `sleep(200)`. Wat gebeurt er met het tempo?
+2.  **Modify**: Maak de code zo dat hij eerst een **blij** gezichtje toont, dan 2 seconden wacht, en dan een **boos** gezichtje toont.
+3.  **Make**: Schrijf (eerst in pseudocode op papier, dan in Python) een programma dat jouw naam laat scrollen, gevolgd door jouw favoriete dier (bijv. `Image.DUCK` of `Image.GIRAFFE`).
+4.  **Debuggen**: De onderstaande code werkt niet. Er zitten 3 fouten in. Kun jij ze vinden en oplossen? (Tip: Let op hoofdletters en inspringen!)
 
-6. Bekijk de code die je hebt verbeterd bij opdracht 5. Voorspel wat deze code 
-doet en test dit.
-7. Zet onderstaande pseudocode om in een code en test dit.
-	1. Als toets B wordt ingedrukt 
-	2. Toon de tekst "B" 
-	3. Doe dit voor 4 seconden 
-	4. Laat daarna het woord "klaar" over het beeld scrollen 
-	5. Toon daarna de afbeelding van een verdrietige smiley 
+		while true:
+		display.show(Image.HAPPY)
+		Sleep(1000)

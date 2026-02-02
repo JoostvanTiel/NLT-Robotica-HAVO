@@ -10,58 +10,74 @@ kernelspec:
   name: python3
 ---
 
-# Hoofdstuk 6: Doolhof oplossen
-Hier moet nog nieuwe uitleg komen.
+# Hoofdstuk 6: Algoritmes en Doolhoven
 
-To Do:
-  > Robot een bocht laten maken
-  > Robot een T-splitsing laten nemen
-  > Robot een kruispunt laten nemen
-  > Robot om laten draaien bij een doodlopend pad
+In de vorige hoofdstukken hebben we geleerd hoe we de robot een lijn kunnen laten volgen en hoe we keuzes kunnen maken met `if`-statements. In dit hoofdstuk gaan we deze kennis combineren om een grotere uitdaging aan te gaan: het oplossen van een doolhof.
+
+Een doolhof is eigenlijk niets anders dan een lijn met veel vertakkingen en doodlopende wegen. Om het einde te vinden, hebben we een slim plan nodig. In de informatica noemen we zo'n plan een **algoritme**.
+
+## Situaties herkennen
+
+Voordat we een algoritme kunnen maken, moet de robot eerst begrijpen in welke situatie hij zich bevindt. De Maqueen heeft 5 lijnsensoren:
+*   `lijnsensor_l2`: Uiterst links
+*   `lijnsensor_l1`: Links van het midden
+*   `lijnsensor_m`: Midden
+*   `lijnsensor_r1`: Rechts van het midden
+*   `lijnsensor_r2`: Uiterst rechts
+
+Tot nu toe gebruikten we vooral de middelste drie. Voor een doolhof zijn de buitenste sensoren (`l2` en `r2`) erg belangrijk om kruispunten te herkennen.
+
+### 1. De rechte lijn
+Dit kennen we al. De `lijnsensor_m` ziet zwart. De andere sensoren zien wit.
+*   **Actie:** Rechtdoor rijden.
+
+### 2. T-Splitsing en Kruispunten
+Bij een T-splitsing of een kruispunt zien meerdere sensoren tegelijk zwart. Bijvoorbeeld, als de robot op een kruispunt stuit, zien `lijnsensor_m`, `lijnsensor_l1`, en `lijnsensor_r1` (en vaak ook `l2` en `r2`) allemaal zwart.
+*   **Signaal:** Meerdere sensoren geven een lage waarde (< 100).
+*   **Actie:** Hier moet de robot een beslissing maken: links, rechts of rechtdoor?
+
+### 3. Doodlopend pad
+Als de lijn plotseling stopt, zien alle sensoren wit (hoge waarde > 100).
+*   **Signaal:** Alle sensoren geven een hoge waarde.
+*   **Actie:** De robot moet omdraaien (180 graden) en terugrijden tot hij weer een lijn vindt.
+
+## Een Doolhof-Algoritme: De Rechterhandregel
+
+Een bekend algoritme om simpele doolhoven op te lossen is de "rechterhandregel". Stel je voor dat je met je ogen dicht in een doolhof staat. Als je met je rechterhand constant de muur aanraakt en zo blijft lopen, kom je uiteindelijk bij de uitgang (of terug bij het begin).
+
+Voor onze lijnvolg-robot werkt dit als volgt bij elk kruispunt:
+1.  **Kan je naar rechts?** -> Ga rechtsaf.
+2.  **Kan je niet naar rechts, maar wel rechtdoor?** -> Ga rechtdoor.
+3.  **Kan je niet naar rechts en niet rechtdoor?** -> Ga linksaf.
+4.  **Kan je nergens heen?** -> Keer om (doodlopend pad).
+
+Om dit te programmeren, moet de robot bij een splitsing dus *eerst* kijken of rechtsaf een optie is.
 
 ## Opdrachten hoofdstuk 6
 
-### Zonder robot
+1. **De Lijn Herkennen (Basis)**
+   Schrijf een programma waarbij de robot stopt zodra hij een dwarse streep (kruispunt) ziet. Gebruik hiervoor `lijnsensor_l2` en `lijnsensor_r2`. Als deze beide zwart zien, moet de robot stilvallen.
 
-1. Gebruik een `for`-lus met `range()` om van 9 naar 0 terug te tellen. Laat elk getal zien op het scherm met `sleep(500)` tussen de stappen.
+2. **Het Doolhof Ontwerpen**
+   Pak het A2-papier. Ontwerp met zwarte tape een doolhof. Zorg voor:
+   *   Minstens één T-splitsing.
+   *   Minstens één doodlopend pad.
+   *   Zorg dat de lijnen niet te dicht op elkaar liggen (minimaal 15 cm tussenruimte).
 
-2. Gebruik een `while`-lus om steeds een hartje en daarna een smiley af te wisselen op het scherm.
+3. **T-Splitsing Nemen**
+   Zet de robot voor een T-splitsing. Schrijf code zodat de robot naar de splitsing rijdt. Zodra hij de splitsing detecteert (via de sensoren), moet hij stoppen, 1 seconde wachten, en dan 90 graden naar rechts draaien en verder rijden.
 
-3. Gebruik een `for`-lus en het `continue`-statement om het getal 4 over te slaan.
+4. **Doodlopend Pad (Dead End)**
+   Zet de robot op een lijn die doodloopt.
+   *   Detecteer het einde van de lijn (alles is wit).
+   *   Laat de robot op zijn plek draaien tot hij weer een lijn ziet (gebruik `lijnsensor_m`).
 
-4. Begin bij 0 en verhoog het getal telkens met 1. Laat het zien op de micro:bit. Stop met tellen zodra `button_a.is_pressed()` `True` is.
-
-5. Maak een lijst `[1, 4, 2, 3, 7]` en gebruik een `for`-lus om te kijken of het getal 3 erin zit. Als je het vindt, laat een vinkje zien.
-
-6. Bekijk de onderstaande code, **maar voer deze nog niet uit!** Bedenk welk getal er op het scherm getoond wordt.
-
-		x = 0
-		
-		for i in range(3):
-			for j in range(5):
-				x = x + i + j
-		
-		display.scroll(x)
-
-### Met robot
-
-7. Gebruik een `for`-lus met `range(5)` en laat de robot elke seconde een beetje draaien met `motor_aan(...)` en `sleep(1000)`.
-
-8. Gebruik een `while`-lus. Laat de robot rijden met beide motoren aan. Stop als de robot een donkere lijn ziet.
-
-9. Rijd vooruit tot de robot binnen 10 cm van een voorwerp is. Laat de robot dan een willekeurige hoeveelheid draaien. Blijf dit oneindig herhalen.
-
-10. Gebruik een `for`-lus en toon met `display.scroll()` de waarde van elke sensor op volgorde.
-
-11. Gebruik een `for`-lus waarin je steeds `led_links`, `led_rechts` of `led_beide` aan- en uitzet. Wacht een halve seconde tussen de stappen.
-
-12. Laat de robot een vierkantje rijden. Gebruik daarvoor een `for`-lus. Sla de instructies hiervoor op een functie genaamd `rijdVierkant()`.
-
-13. Laat de robot vijfmaal achter elkaar een vierkantje rijden. Gebruik daarvoor de functie uit de vorige vraag.
-
-14. Pak het A2-papier van de vorige hoofdstukken er weer bij en ontwerp zelf een klein doolhof. Houdt er rekening mee dat de paden niet te dicht op elkaar zitten (minimaal 1,5 robotlengtes afstand). Het doolhof moet minimaal bevatten: 
-	+ start
-	+ drie rechte bochten
-	+ een t-splitsing
-	+ een doodlopend pad
-	+ een eind (grijs vel)
+5. **De Ultieme Test: Doolhof Oplossen**
+   Combineer alles in één programma. Gebruik de **Rechterhandregel**:
+   *   Volg de lijn.
+   *   Kruispunt of splitsing? -> Check rechts. Rechts vrij? Draai rechts.
+   *   Anders rechtdoor.
+   *   Anders links.
+   *   Doodlopend? -> Draai om.
+   
+   Start de robot aan het begin en kijk of hij zelfstandig het einde (het grijze vlak) kan vinden!
