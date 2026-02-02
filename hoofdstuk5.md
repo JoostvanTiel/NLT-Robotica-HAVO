@@ -1,155 +1,144 @@
-# Hoofdstuk 5: Functies en variabelen
+# Hoofdstuk 5: Je eigen commando's (Functies)
 
-In de afgelopen twee hoofdstukken zijn we meerdere functies tegengekomen. In dit hoofdstuk gaan we dieper in op wat functies zijn en hoe je ze gebruikt. Hiervoor moeten we weten wat voor soorten functies en wat voor soorten variabelen er zijn. We zullen de belangrijkste in dit hoofdstuk bespreken. Daarna gaan we kijken naar de werking van verschillende functies die je kunt aanroepen om de Maqueen te besturen.   
+Stel je voor dat je de robot een vierkantje wilt laten rijden. De code daarvoor is best lang:
+1. Rijd vooruit
+2. Stop
+3. Draai 90 graden
+4. Stop
+...en dat dan 4 keer achter elkaar. Je krijgt een enorme waslijst aan code.
 
-## Functies 
+Zou het niet handig zijn als we de robot een *nieuw* woord kunnen leren? Bijvoorbeeld: `rijd_vierkant()`.
+Zodra de robot dit woord ziet, voert hij zelf alle stappen uit. Dit noemen we een **functie**.
 
-In het vorige hoofdstuk zijn we het commando `motor_aan()` tegengekomen. Dit is een voorbeeld van een functie. Je kunt een functie herkennen aan de haakjes die achter het commando staan. Functies gebruik je vooral bij langere codes, omdat die anders snel onoverzichtelijk worden. Je splitst in dit geval je code op in verschillende kleinere programma’s (de functies). Zo kun je complexere programma’s overzichtelijk en makkelijk te begrijpen houden. Verder kunnen functies ook helpen om geheugen te besparen, omdat je een bepaalde functie meerdere keren  kunt aanroepen. Je kunt deze functies vergelijken als een functie in de wiskunde. Je stopt er iets in (invoer), de  functie verwerkt dat, en je krijgt er weer iets uit (uitvoer).  
+## Wat is een functie?
 
-Naast de functies die we al zijn tegengekomen, en alle functies die in het bestand `maqueen.py` staan, kun je ook je eigen functies schrijven. Een voorbeeld van een simpele functie is: 
+Je kunt een functie zien als een recept.
+*   **Het recept:** Een lijstje stappen die je één keer opschrijft.
+*   **De maaltijd:** Het resultaat dat je krijgt als je het recept uitvoert ("aanroept").
 
-	from microbit import *
+We hebben al veel functies gebruikt: `motor_aan()`, `sleep()`, `display.show()`. Nu gaan we ze zelf maken.
 
-	def laat_hartje_knipperen():
-		"""
-			laat een hartje knipperen
-		"""
-		
-		display.show(Image.HEART)
-		sleep(1000)
-		display.clear()
-		sleep(1000)
-		display.show(Image.HEART)
-		sleep(1000)
-		display.clear()
-		sleep(1000)
+### Je eerste eigen functie
 
+Laten we de robot leren hoe hij "Hallo" moet zeggen met zijn lampjes.
+
+	def knipper_lampjes():
+		# Hier begint het recept
+		headlights(led_beide, 1) # Aan
+		sleep(500)
+		headlights(led_beide, 0) # Uit
+		sleep(500)
+
+	# Hier stopt het recept (omdat we niet meer inspringen)
+
+	# Nu gaan we het recept gebruiken (aanroepen)
 	while True:
-		laat_hartje_knipperen()
-		display.show(Image.HAPPY)
-		break
+		if button_a.is_pressed():
+			knipper_lampjes()   # Doe het trucje!
+			knipper_lampjes()   # Doe het nog eens!
 
-Je ziet dat de code begint met eerst in commentaar uitleggen  wat de functie doet. Dit moet je er altijd bij schrijven als je een functie maakt. Zo blijft het altijd duidelijk wat welke functie doet. Om de functie te schrijven begin je altijd met def . Hiermee vertel je aan het programma dat je een functie gaat schrijven. Daarna geef je de functie een naam.
+Met `def` (van **def**inities) vertel je Python: "Ik ga nu een nieuw woord uitleggen."
 
+## Parameters: Een recept op maat
 
+Stel je wilt dat de robot soms 1 seconde knippert, en soms heel snel (0.1 seconde). Moet je dan twee aparte recepten schrijven? Nee! We kunnen een **parameter** (instelling) toevoegen.
 
+Vergelijk het met een recept voor pannenkoeken: "Voeg *X* eieren toe."
+Als je het recept gebruikt, zegt iemand: "Maak pannenkoeken met 2 eieren" of "met 4 eieren".
 
+In Python:
 
-### Parameters 
+	def rijd_vooruit(tijd):
+		motor_aan(motor_links)
+		motor_aan(motor_rechts)
+		sleep(tijd)              # Gebruik de instelling
+		motor_uit(motor_links)
+		motor_uit(motor_rechts)
 
+Nu kunnen we de robot flexibel commanderen:
 
-	from microbit import *
+	rijd_vooruit(1000)  # Rijd 1 seconde
+	rijd_vooruit(3000)  # Rijd 3 seconden
 
-	def laat_hartje_knipperen(tijd):
-		"""
-			laat een hartje knipperen
-			tijd: geheel getal
-			return: niets, functie voert iets uit, geeft niet iets terug
-		"""
-		display.show(Image.HEART)
-		sleep(1000)
-		display.clear()
-		sleep(1000)
-		display.show(Image.HEART)
-		sleep(1000)
-		display.clear()
-		sleep(1000)
+De waarde `1000` wordt in de 'doos' (variabele) `tijd` gestopt. Overal waar `tijd` staat in de functie, wordt nu `1000` gebruikt.
 
-	while True:
-		laat_hartje_knipperen(400)
-		display.show(Image.HAPPY)
-		break
+## Variabelen: Het geheugen
 
-Sommige functies werken met zogenaamde parameters. Tussen de haakjes staan de waardes die de functie nodig heeft om zijn werk te doen. Paramters zijn de invoer van een functie. Binnen de functie gebruik je de parameters als variabelen. De waarden van de parameters weet je niet als je de functie schrijft. Die worden pas bepaald als de functie wordt aangeroepen. Als je de functie schrijft moet je wel aangeven hoe je de parameter noemt. Het maakt niet uit hoeveel parameters een functie heeft. Als je geen parameters hebt, dan laat je het gedeelte tussen de haakjes leeg. In het voorbeeld hierboven wordt de parameter `tijd` ingevoerd. Als de functie wordt aangeroepen wordt de waarde 400 doorgegeven. De tijd tussen het verschijnen van het hartje en het leegmaken van het scherm is dan 400 ms. 
+Een variabele is een doosje waarin je iets kunt bewaren.
+In wiskunde is dat vaak `x` of `y`. Saai! Bij robotica geven we ze logische namen.
 
-### Returnwaardes en void-functies
+	snelheid = 255
+	afstand_tot_muur = 0
+	naam_robot = "Henk"
 
-Sommige functies geven een waarde terug aan de code, bijvoorbeeld als ze een berekening hebben uitgevoerd. Deze waarde noem je de uitvoer. Een functie kan hooguit 1 waarde als uitvoer hebben. Dit is de returnwaarde. In de code van de functie moet je aangeven welke waarde teruggegeven moet worden. Dit doe je door `return` te gebruiken. Achter return geef je aan wat je terug wilt geven. Dit kan een variabele zijn, maar ook een letterlijke waarde.
-Andere functies geven geen returnwaarde, maar voeren alleen een stukje code uit. Dit soort functies noem je void-functies. We zijn in deze module al veel void-functies  tegen gekomen.  Bijvoorbeeld de functie `display.show(Image.HEART)` heeft geen returnwaarde.  In het laatste voorbeeld zie je dat ook void-functies parameters kunnen bevatten. Hoewel ze geen returnwaarde hebben, kunnen ze wel een actie in gang zetten. 
+Er zijn verschillende soorten dozen:
+1.  **Integer (Geheel getal):** `snelheid = 100`
+2.  **Float (Kommagetal):** `wachttijd = 0.5`
+3.  **String (Tekst):** `bericht = "Pas op!"`
+4.  **Boolean (Waar/Niet waar):** `lamp_aan = True`
 
-## Variabelen 
+Je hoeft Python niet te vertellen wat voor soort doos het is; dat snapt hij zelf.
 
-In een functie vul je parameters in. Deze parameters zijn variabelen, en kunnen dus verschillende waarden aannemen. Variabelen kunnen van verschillende datatypen zijn. Het is belangrijk dat je variabelen van het correcte datatype meegeeft aan een functie. Probeer een variabele altijd een naam te geven, waaruit je kan opmaken wat er in opgeslagen wordt. In Python krijgt een variabele automatisch het datatype van hetgeen je hem meegeeft. Je kent iets toe aan een variabele door het gebruik van één “=” teken. Dit betekent “krijgt de waarde”. Een dubbel “==” teken is een vergelijking. Er wordt dan nagegaan of voor en na de “==” hetzelfde staat. De meeste gebruikte datatypen zijn 
-
-	integer		# een geheel getal 
-	bool		# true of false 
-	float		# kommagetal 
-	string		# woord of zin 
-
-### integer 
-
-De integer variabele gebruik je om gehele getallen in op te slaan. Je kan er bijvoorbeeld mee bijhouden hoe vaak je een object hebt gezien. Een voorbeeld van een toekenning is 
-
-	x = 5 
-
-Als je de variabele wilt gebruiken kun je de variabele aanroepen door de naam te gebruiken. In dit geval is dat ‘x’. Je kunt de variabele als volgt gebruiken: 
-
-	x = 5 * 2 
-	x = x * 2 
-
-Bij de tweede regel gebruik je de oude waarde van x, om de nieuwe waarde te berekenen. In de eerste regel heeft x de waarde 10. In de tweede regel wordt dus 10 ingevuld voor x. Zo komt er te staan: x = 10 \* 2. De waarde van x wordt dan 20. De functie Oppervlakte is een voorbeeld van een functie met parameters van datatype integer.  
-
-### bool 
-
-Bool is de afkorting van boolean. Boolean betekent dat het maar 2 waardes kan hebben, waar of niet waar. In een programmeertaal wordt daarvoor `true` en `false` gebruikt. De bool variabele gebruik je bijvoorbeeld om op te slaan of je iets al gedaan of gezien hebt. We zijn hem al vaker tegengekomen in de vorm `while True`. Je kunt  hem bijvoorbeeld gebruiken om aan te geven dat je iets al een keer bent tegengekomen. Zo kun je de while-loop afbreken die we in eerdere hoofdstukken gezien hebben. Een voorbeeld hiervan is: 
-
-	# laat 1 sec lang een afbeelding zien van een hart
-	# scroll vervolgens het woord "Hello"
-	# De while-loop wordt afgebroken
+### Variabelen aanpassen
+Je kunt de inhoud van de doos veranderen.
 	
-	niet_gezien = True
-	while niet_gezien:
-		display.show(Image.HEART)
-		sleep(1000)
-		display.scroll('Hello')
-		niet_gezien = False
+	snelheid = 50          # Start langzaam
+	motor_aan(motor_links, snelheid, 0)
+	
+	snelheid = snelheid * 2 # Dubbele snelheid! (Nu 100)
+	motor_aan(motor_links, snelheid, 0)
 
-### float 
+## Waardes teruggeven ("Return")
 
-In een float-variabele kun je een kommagetal opslaan. Dit kan handig zijn als je waardes nauwkeurig wilt bepalen. Als je getallen gebruikt van het type integer voor een berekening, wordt de waarde namelijk afgerond. Om dit te voorkomen gebruiken we het type float. Dit doe je door een kommagetal in te vullen. **LET OP: in programmeertaal kun je alleen een punt gebruiken in een kommagetal!** In de functie `Oppervlakte` kun je de parameters ook invullen in het type float. Dit doe je dan als volgt: `Oppervlakte(2.2,2.3)`. Met een float kun je verder dezelfde dingen doen als met een int-variabele. 
+Sommige functies *doen* iets (zoals `motor_aan`), andere functies *berekenen* iets en geven het antwoord terug.
+Bijvoorbeeld de ultrasoonsensor: jij vraagt "Hoe ver?", hij antwoordt "15 cm".
 
-### string 
+Als je zelf zo'n functie schrijft, gebruik je `return`.
 
-In een string-variabele kun je een woord of hele zin opslaan. Een string kun je bijvoorbeeld gebruiken om een zin op het schermpje van de robot te zetten. We hebben deze bijvoorbeeld eerder gezien in de vorm `Display.scroll("Hello")`. Een string zet je altijd tussen aanhalingstekens. De functie `Display.scroll()` kan dus alleen parameters verwerken met datatype string.
+	def is_gevaarlijk_dichtbij():
+		afstand = afstand_tot_voorwerp()
+		
+		if afstand < 10:
+			return True   # Ja, gevaarlijk!
+		else:
+			return False  # Nee, veilig.
 
-## Werking motor 
+	# Gebruik:
+	if is_gevaarlijk_dichtbij():
+		motor_uit(motor_links)
+		motor_uit(motor_rechts)
 
-Nu we weten hoe functies en hun parameters werken, kunnen we eerder gebruikte functies beter bekijken. We zijn eerder de functie `motor_aan()` tegengekomen. We hebben daar toen alleen aangegeven welke motor aangezet moest worden. Het lijkt alsof deze functie naast de motor geen parameters heeft. Toch is dit niet helemaal waar. Eigenlijk heeft de functie nog twee parameters: de snelheid en de richting van de robot. We hebben deze waarden voorheen niet meegegeven, omdat in de functie standaardwaarden zijn gegeven. Dat houdt in dat als er geen variabelen worden meegegeven, de functie automatisch de standaardwaarde pakt. De snelheid in deze functie kan worden ingevuld van 0 (stilstaan) tot 255 (het snelst). Voor de richting kan 0 (vooruit) en 1 (achteruit) worden ingevuld. Dat kan als volgt gedaan worden `motor_aan(motor_links, 10, 1)`. Met dit commando laat je het linkerwiel van de robot met snelheid 10 achteruit draaien.
+## Willekeur (Random)
 
-## Lampen 
+Soms wil je dat de robot onvoorspelbaar is, zoals een levend wezen.
 
-Met de functie `headlights()` kun je de lampen van de robot besturen. De functie heeft twee parameters: de lamp (led_links, led_rechts of led_beide) en de staat (aan of uit). Om het commando te geven dat beide lampen aan moeten, roep je de functie dus aan via headlights(led_beide, aan). 
-
-## Random getallen 
-
-Soms is het handig als de robot willekeurig een bepaalde actie doet. Dit maakt de robot minder voorspelbaar, waardoor hij sneller intelligenter overkomt. Om random getallen te gebruiken kun je een variabele maken die je random een getal toewijst.  Hiervoor moet je eerst de bijbehorende package importeren. Vervolgens kun je willekeurig een getal toewijzen. De random-functie heeft twee parameters: de laagste en de hoogste waarde die toegewezen mag worden. Aanroepen van de functie ziet er dan als volgt uit: 
-
-	# Imports go at the top
-	from maqueen import *
 	from random import randint
 	
-	random_getal = randint(0, 100)
+	# Kies een willekeurig getal tussen 0 en 100
+	geluksgetal = randint(0, 100)
+	
+	if geluksgetal > 50:
+		display.show(Image.HAPPY)
+	else:
+		display.show(Image.SAD)
 
-Aan de variabele random_getal wordt nu willekeurig een waarde toegekend tussen de 0 en 100. 
+## Opdrachten hoofdstuk 5
 
-## Opdrachten hoofdstuk 3 
+1.  **De Dans-functie**:
+    Maak een functie `doe_de_moonwalk()`. Zorg dat de robot in die functie een stukje achteruit rijdt en draait. Roep deze functie aan als je op knop A drukt.
 
-1. Leg uit wat het verschil is tussen integer- en boolvariabelen. 
+2.  **Slimme bocht**:
+    Maak een functie `draai_graden(aantal_graden)`.
+    *   Deze is lastig! Je moet experimenteren. Hoe lang moet de motor aan staan (`sleep`) om precies 90 graden te draaien? En voor 180 graden?
+    *   Probeer een formule te vinden. Bijvoorbeeld: `tijd = aantal_graden * 10`.
 
-2. Wat is een void-functie en wanneer gebruik je deze? 
+3.  **Lichtsensor Variabele**:
+    Maak een variabele `basis_licht`.
+    *   Bij het opstarten meet de robot het licht in de kamer en stopt dit in de variabele.
+    *   Daarna gaat hij rijden. Als het *plotseling* veel donkerder is dan `basis_licht` (bijvoorbeeld omdat hij onder een tafel rijdt), gaan de koplampen aan.
 
-3. Zoek in het `maqueen.py` bestand op wat de standaard meegegeven snelheid van de robot is.
-
-4. Schrijf een functie genaamd `draaiLinks(tijd)`, waarin je de tijd als parameter kunt invoeren en de robot vervolgens gedurende die tijd naar links draait.
-
-5. Doe hetzelfde als in de vorige opdracht, maar dan me een functie genaamd `draaiRechts(tijd)`. 
-
-6. Laat de robot naar links draaien met de linker lamp aan. Doe vervolgens hetzelfde voor de rechter kant. 
-
-7. Laat de robot rijden in een cirkel met een straal van minimaal 20cm (dus niet om zijn eigen as). 
-
-8. Laat de robot vooruitrijden met een snelheid van 10 terwijl hij de lampen aan heeft. Doe dit voor 5 seconde. Zet vervolgens de lampen uit en laat de robot voor nog 5 seconde naar achter rijde.  
-
-9. Schrijf een functie die op de simulator een smiley met een willekeurige gezichtsuitdrukking meegeeft. Gebruik hiervoor de random-functie.  
-
-10. Laat de robot willekeurig rondrijden, dus vooruit, achteruit, en draaien. Gebruik hiervoor de random-functie.
+4.  **De Dronken Robot**:
+    Laat de robot rondrijden. Gebruik `randint` om elke seconde een nieuwe snelheid voor het linker- én rechterwiel te kiezen.
+    *   Links: willekeurig tussen 0 en 255.
+    *   Rechts: willekeurig tussen 0 en 255.
+    Wat voor gedrag zie je?
