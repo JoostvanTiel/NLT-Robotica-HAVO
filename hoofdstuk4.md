@@ -60,6 +60,8 @@ Soms zijn er meer dan twee opties. Denk aan een bewaker:
 2.  Is de afstand een beetje klein (< 30)? -> **Rustig aan.** (Rem een beetje af)
 3.  Anders? -> **Gas erop!** (Volle kracht)
 
+![Flowchart Elif-statement](img/h4.2.png)
+
 Dit schrijven we met `elif` (een afkorting van Else If).
 
 	afstand = afstand_tot_voorwerp()
