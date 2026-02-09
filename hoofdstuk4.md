@@ -22,6 +22,8 @@ Voordat de robot een keuze maakt, moet hij eerst iets controleren. Bijvoorbeeld:
 Stel, we willen dat de robot stopt als hij bijna tegen een muur botst.
 In mensentaal: "Als de afstand kleiner is dan 10 cm, zet dan de motoren uit."
 
+![Flowchart If-statement](img/h4.1.png)
+
 In Python ziet dat er zo uit:
 
 	if afstand_tot_voorwerp() < 10:
